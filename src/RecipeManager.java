@@ -1,10 +1,16 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RecipeManager {
     private static RecipeManager instance;
+    private List<Recipe> recipes;
+    private IngredientInventory inventory;
 
-    private RecipeManager() {}
+    private RecipeManager() {
+        recipes = new ArrayList<>();
+        inventory = IngredientInventory.getInstance();
+    }
 
     public static RecipeManager getInstance() {
         if (instance == null) {
@@ -13,8 +19,8 @@ public class RecipeManager {
         return instance;
     }
 
-    public List<Recipe> loadRecipes(String filename) {
-        List<Recipe> recipes = new ArrayList<>();
+    public void loadRecipes(String filename) {
+        this.recipes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             String name = "";
@@ -51,6 +57,32 @@ public class RecipeManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return recipes;
+        updateRecipeAvailability();
+    }
+
+    private void updateRecipeAvailability() {
+        for (Recipe recipe : recipes) {
+            recipe.updateAvailabilityStatus(inventory);
+        }
+    }
+
+    public List<Recipe> getAllRecipes() {
+        return new ArrayList<>(recipes);
+    }
+
+    public List<Recipe> getAvailableRecipes() {
+        return recipes.stream()
+                .filter(r -> r.getStatus() == Recipe.RecipeStatus.FULLY_AVAILABLE)
+                .collect(Collectors.toList());
+    }
+
+    public List<Recipe> getPartiallyAvailableRecipes() {
+        return recipes.stream()
+                .filter(r -> r.getStatus() == Recipe.RecipeStatus.PARTIALLY_AVAILABLE)
+                .collect(Collectors.toList());
+    }
+
+    public void refreshAvailability() {
+        updateRecipeAvailability();
     }
 }

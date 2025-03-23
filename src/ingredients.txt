@@ -1,0 +1,11 @@
+Carrot, 5, pieces
+Bell Pepper, 2, pieces
+Onion, 3, pieces
+Soy Sauce, 1, cups
+Garlic, 5, cloves
+Banana, 4, pieces
+Milk, 2, liters
+Honey, 1, jar
+Bread, 6, slices
+Butter, 2, packets
+Cheddar Cheese, 10, slices
