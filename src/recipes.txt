@@ -7,11 +7,11 @@ Ingredients:
 - Soy Sauce, 2.0, tbsp
 - Garlic, 1.0, cloves
 Steps:
-- hop all the vegetables.
-- eat oil in a pan and sauté garlic.
-- dd chopped vegetables and stir-fry for 5 minutes.
-- dd soy sauce and stir for another 2 minutes.
-- erve hot.
+- op all the vegetables.
+- at oil in a pan and sauté garlic.
+- d chopped vegetables and stir-fry for 5 minutes.
+- d soy sauce and stir for another 2 minutes.
+- rve hot.
 ---
 Recipe: Banana Smoothie
 Servings: 2
@@ -20,10 +20,10 @@ Ingredients:
 - Milk, 1.0, cups
 - Honey, 1.0, tbsp
 Steps:
-- eel and slice the bananas.
-- dd bananas, milk, and honey to a blender.
-- lend until smooth.
-- our into glasses and serve.
+- el and slice the bananas.
+- d bananas, milk, and honey to a blender.
+- end until smooth.
+- ur into glasses and serve.
 ---
 Recipe: Grilled Cheese Sandwich
 Servings: 1
@@ -32,23 +32,30 @@ Ingredients:
 - Butter, 1.0, tbsp
 - Cheddar Cheese, 2.0, slices
 Steps:
-- utter one side of each slice of bread.
-- lace a slice of cheese between the unbuttered sides of the bread.
-- rill the sandwich on a hot pan until golden brown.
-- lip and grill the other side.
-- ut and serve hot.
+- tter one side of each slice of bread.
+- ace a slice of cheese between the unbuttered sides of the bread.
+- ill the sandwich on a hot pan until golden brown.
+- ip and grill the other side.
+- t and serve hot.
 ---
 Recipe: matha
 Servings: 1
 Ingredients:
 - Flour, 200.0, 12
 Steps:
-- anao
+- nao
 ---
 Recipe: moida
 Servings: 1
 Ingredients:
 - moida, 100.0, 12
 Steps:
-- moida ei lagbe shudhu
+- oida ei lagbe shudhu
+---
+Recipe: blaf
+Servings: 1
+Ingredients:
+- Carrot, 1.0, pieces
+Steps:
+- carrot
 ---

@@ -96,15 +96,12 @@ public class RecipeManager {
     public void createRecipeWithUserInput() {
         Scanner scanner = new Scanner(System.in);
         
-        // Get recipe name
         System.out.print("Enter recipe name: ");
         String name = scanner.nextLine();
         
-        // Get number of servings
         System.out.print("Enter number of servings: ");
         int servings = Integer.parseInt(scanner.nextLine());
         
-        // Get ingredients
         List<Ingredient> ingredients = new ArrayList<>();
         System.out.println("\nEnter ingredients (type 'done' when finished):");
         System.out.println("Format: ingredient_name, quantity, unit (e.g., Flour, 200, g)");
@@ -129,7 +126,6 @@ public class RecipeManager {
             }
         }
         
-        // Get steps
         List<String> steps = new ArrayList<>();
         System.out.println("\nEnter cooking steps (type 'done' when finished):");
         int stepNumber = 1;
@@ -142,7 +138,6 @@ public class RecipeManager {
             stepNumber++;
         }
         
-        // Add the recipe
         addRecipe(name, servings, ingredients, steps);
         System.out.println("\nRecipe added successfully!");
     }
