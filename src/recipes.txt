@@ -1,40 +1,54 @@
 Recipe: Vegetable Stir Fry
 Servings: 4
 Ingredients:
-- Carrot, 2, pieces
-- Bell Pepper, 1, pieces
-- Onion, 1, pieces
-- Soy Sauce, 2, tbsp
-- Garlic, 1, cloves
+- Carrot, 2.0, pieces
+- Bell Pepper, 1.0, pieces
+- Onion, 1.0, pieces
+- Soy Sauce, 2.0, tbsp
+- Garlic, 1.0, cloves
 Steps:
-1. Chop all the vegetables.
-2. Heat oil in a pan and sauté garlic.
-3. Add chopped vegetables and stir-fry for 5 minutes.
-4. Add soy sauce and stir for another 2 minutes.
-5. Serve hot.
+- hop all the vegetables.
+- eat oil in a pan and sauté garlic.
+- dd chopped vegetables and stir-fry for 5 minutes.
+- dd soy sauce and stir for another 2 minutes.
+- erve hot.
 ---
 Recipe: Banana Smoothie
 Servings: 2
 Ingredients:
-- Banana, 2, pieces
-- Milk, 1, cups
-- Honey, 1, tbsp
+- Banana, 2.0, pieces
+- Milk, 1.0, cups
+- Honey, 1.0, tbsp
 Steps:
-1. Peel and slice the bananas.
-2. Add bananas, milk, and honey to a blender.
-3. Blend until smooth.
-4. Pour into glasses and serve.
+- eel and slice the bananas.
+- dd bananas, milk, and honey to a blender.
+- lend until smooth.
+- our into glasses and serve.
 ---
 Recipe: Grilled Cheese Sandwich
 Servings: 1
 Ingredients:
-- Bread, 2, slices
-- Butter, 1, tbsp
-- Cheddar Cheese, 2, slices
+- Bread, 2.0, slices
+- Butter, 1.0, tbsp
+- Cheddar Cheese, 2.0, slices
 Steps:
-1. Butter one side of each slice of bread.
-2. Place a slice of cheese between the unbuttered sides of the bread.
-3. Grill the sandwich on a hot pan until golden brown.
-4. Flip and grill the other side.
-5. Cut and serve hot.
+- utter one side of each slice of bread.
+- lace a slice of cheese between the unbuttered sides of the bread.
+- rill the sandwich on a hot pan until golden brown.
+- lip and grill the other side.
+- ut and serve hot.
+---
+Recipe: matha
+Servings: 1
+Ingredients:
+- Flour, 200.0, 12
+Steps:
+- anao
+---
+Recipe: moida
+Servings: 1
+Ingredients:
+- moida, 100.0, 12
+Steps:
+- moida ei lagbe shudhu
 ---

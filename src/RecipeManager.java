@@ -85,4 +85,85 @@ public class RecipeManager {
     public void refreshAvailability() {
         updateRecipeAvailability();
     }
+
+    public void addRecipe(String name, int servings, List<Ingredient> ingredients, List<String> steps) {
+        Recipe newRecipe = new Recipe(name, ingredients, steps, servings);
+        recipes.add(newRecipe);
+        updateRecipeAvailability();
+        saveRecipes("src/recipes.txt");
+    }
+
+    public void createRecipeWithUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Get recipe name
+        System.out.print("Enter recipe name: ");
+        String name = scanner.nextLine();
+        
+        // Get number of servings
+        System.out.print("Enter number of servings: ");
+        int servings = Integer.parseInt(scanner.nextLine());
+        
+        // Get ingredients
+        List<Ingredient> ingredients = new ArrayList<>();
+        System.out.println("\nEnter ingredients (type 'done' when finished):");
+        System.out.println("Format: ingredient_name, quantity, unit (e.g., Flour, 200, g)");
+        
+        while (true) {
+            System.out.print("Ingredient: ");
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("done")) break;
+            
+            try {
+                String[] parts = input.split(", ");
+                if (parts.length != 3) {
+                    System.out.println("Invalid format! Please use: ingredient_name, quantity, unit");
+                    continue;
+                }
+                String ingredientName = parts[0];
+                double quantity = Double.parseDouble(parts[1]);
+                String unit = parts[2];
+                ingredients.add(new Ingredient(ingredientName, quantity, unit));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid quantity! Please enter a valid number.");
+            }
+        }
+        
+        // Get steps
+        List<String> steps = new ArrayList<>();
+        System.out.println("\nEnter cooking steps (type 'done' when finished):");
+        int stepNumber = 1;
+        
+        while (true) {
+            System.out.print("Step " + stepNumber + ": ");
+            String step = scanner.nextLine().trim();
+            if (step.equalsIgnoreCase("done")) break;
+            steps.add(step);
+            stepNumber++;
+        }
+        
+        // Add the recipe
+        addRecipe(name, servings, ingredients, steps);
+        System.out.println("\nRecipe added successfully!");
+    }
+
+    private void saveRecipes(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            for (Recipe recipe : recipes) {
+                writer.println("Recipe: " + recipe.getName());
+                writer.println("Servings: " + recipe.getServings());
+                writer.println("Ingredients:");
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    writer.println("- " + ingredient.getName() + ", " + ingredient.getQuantity() + ", " + ingredient.getUnit());
+                }
+                writer.println("Steps:");
+                for (String step : recipe.getSteps()) {
+                    writer.println("- " + step);
+                }
+                writer.println("---");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
