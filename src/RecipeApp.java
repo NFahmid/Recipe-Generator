@@ -92,9 +92,34 @@ public class RecipeApp {
             System.out.println("No recipes found.");
             return;
         }
+        
+        // First display all recipes
         for (Recipe recipe : recipes) {
             System.out.println(recipe);
             System.out.println();
+        }
+        
+        // Ask if user wants to adjust serving sizes
+        System.out.print("\nWould you like to adjust the serving size for all recipes? (y/n): ");
+        String response = scanner.nextLine().trim().toLowerCase();
+        
+        if (response.equals("y")) {
+            System.out.print("Enter desired number of servings: ");
+            try {
+                int desiredServings = Integer.parseInt(scanner.nextLine().trim());
+                if (desiredServings > 0) {
+                    System.out.println("\nAdjusted Recipes:\n");
+                    for (Recipe recipe : recipes) {
+                        Recipe adjustedRecipe = recipe.adjustServings(desiredServings);
+                        System.out.println(adjustedRecipe);
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("Please enter a valid number of servings greater than 0.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
         }
     }
 

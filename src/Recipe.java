@@ -23,6 +23,23 @@ public class Recipe {
         this.matchPercentage = 0.0;
     }
 
+    public Recipe adjustServings(int desiredServings) {
+        if (desiredServings <= 0) return this;
+        
+        List<Ingredient> adjustedIngredients = new ArrayList<>();
+        double scaleFactor = (double) desiredServings / this.servings;
+        
+        for (Ingredient ingredient : this.ingredients) {
+            double adjustedQuantity = ingredient.getQuantity() * scaleFactor;
+            adjustedIngredients.add(new Ingredient(ingredient.getName(), adjustedQuantity, ingredient.getUnit()));
+        }
+        
+        return new Recipe(this.name + " (Adjusted for " + desiredServings + " servings)",
+                         adjustedIngredients,
+                         new ArrayList<>(this.steps),
+                         desiredServings);
+    }
+
     public String getName() { return name; }
     public int getServings() { return servings; }
     public List<Ingredient> getIngredients() { return ingredients; }
