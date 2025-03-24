@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Recipe Generator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Recipe_Generator_jar</output-path>
+    <root id="archive" name="Recipe Generator.jar">
+      <element id="module-output" name="Recipe Generator" />
+    </root>
+  </artifact>
+</component>

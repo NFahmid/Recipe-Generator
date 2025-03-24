@@ -5,11 +5,11 @@ import java.util.stream.Collectors;
 public class RecipeManager {
     private static RecipeManager instance;
     private List<Recipe> recipes;
-    private IngredientInventory inventory;
+    private UserManager userManager;
 
     private RecipeManager() {
         recipes = new ArrayList<>();
-        inventory = IngredientInventory.getInstance();
+        userManager = UserManager.getInstance();
     }
 
     public static RecipeManager getInstance() {
@@ -61,8 +61,11 @@ public class RecipeManager {
     }
 
     private void updateRecipeAvailability() {
+        User currentUser = userManager.getCurrentUser();
+        if (currentUser == null) return;
+        
         for (Recipe recipe : recipes) {
-            recipe.updateAvailabilityStatus(inventory);
+            recipe.updateAvailabilityStatus(currentUser.getPersonalInventory());
         }
     }
 

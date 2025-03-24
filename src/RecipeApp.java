@@ -4,6 +4,18 @@ import java.util.Scanner;
 import java.util.Map;
 
 public class RecipeApp {
+    private static UserManager userManager;
+    private static RecipeManager recipeManager;
+    private static Scanner scanner;
+
+    private static void displayAuthMenu() {
+        System.out.println("\n=== Recipe Manager Login ===");
+        System.out.println("1. Login");
+        System.out.println("2. Sign Up");
+        System.out.println("3. Exit");
+        System.out.print("\nEnter your choice (1-3): ");
+    }
+
     private static void displayMenu() {
         System.out.println("\n=== Recipe Manager Menu ===");
         System.out.println("1. Add New Recipe");
@@ -11,7 +23,7 @@ public class RecipeApp {
         System.out.println("3. View Available Recipes");
         System.out.println("4. View Partially Available Recipes");
         System.out.println("5. Manage Ingredients");
-        System.out.println("6. Exit");
+        System.out.println("6. Logout");
         System.out.print("\nEnter your choice (1-6): ");
     }
 
@@ -113,59 +125,112 @@ public class RecipeApp {
         }
     }
 
-    public static void main(String[] args) {
-        RecipeManager recipeManager = RecipeManager.getInstance();
-        IngredientInventory inventory = IngredientInventory.getInstance();
-        Scanner scanner = new Scanner(System.in);
+    private static boolean handleLogin() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine().trim();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine().trim();
 
-        inventory.loadIngredientsFromFile("src/ingredients.txt");
+        if (userManager.login(username, password)) {
+            System.out.println("\nLogin successful! Welcome, " + username + "!");
+            return true;
+        } else {
+            System.out.println("\nInvalid username or password.");
+            return false;
+        }
+    }
+
+    private static boolean handleSignup() {
+        System.out.print("Enter new username: ");
+        String username = scanner.nextLine().trim();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine().trim();
+
+        if (userManager.registerUser(username, password)) {
+            System.out.println("\nRegistration successful! Please login.");
+            return true;
+        } else {
+            System.out.println("\nUsername already exists. Please choose a different username.");
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        userManager = UserManager.getInstance();
+        recipeManager = RecipeManager.getInstance();
+        scanner = new Scanner(System.in);
+
         recipeManager.loadRecipes("src/recipes.txt");
 
         while (true) {
-            displayMenu();
+            displayAuthMenu();
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
-                    recipeManager.createRecipeWithUserInput();
-                    break;
-                case "2":
-                    viewAllRecipes(recipeManager);
-                    break;
-                case "3":
-                    viewAvailableRecipes(recipeManager);
-                    break;
-                case "4":
-                    viewPartiallyAvailableRecipes(recipeManager);
-                    break;
-                case "5":
-                    while (true) {
-                        displayIngredientMenu();
-                        String ingredientChoice = scanner.nextLine().trim();
-                        
-                        switch (ingredientChoice) {
-                            case "1":
-                                viewAllIngredients(inventory);
-                                break;
-                            case "2":
-                                addNewIngredient(inventory, scanner);
-                                break;
-                            case "3":
-                                removeIngredient(inventory, scanner);
-                                break;
-                            case "4":
-                                break;
-                            default:
-                                System.out.println("\nInvalid choice! Please try again.");
-                                continue;
+                    if (handleLogin()) {
+                        while (true) {
+                            displayMenu();
+                            String menuChoice = scanner.nextLine().trim();
+
+                            switch (menuChoice) {
+                                case "1":
+                                    recipeManager.createRecipeWithUserInput();
+                                    break;
+                                case "2":
+                                    viewAllRecipes(recipeManager);
+                                    break;
+                                case "3":
+                                    viewAvailableRecipes(recipeManager);
+                                    break;
+                                case "4":
+                                    viewPartiallyAvailableRecipes(recipeManager);
+                                    break;
+                                case "5":
+                                    while (true) {
+                                        displayIngredientMenu();
+                                        String ingredientChoice = scanner.nextLine().trim();
+                                        
+                                        switch (ingredientChoice) {
+                                            case "1":
+                                                viewAllIngredients(userManager.getCurrentUser().getPersonalInventory());
+                                                break;
+                                            case "2":
+                                                addNewIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
+                                                break;
+                                            case "3":
+                                                removeIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
+                                                break;
+                                            case "4":
+                                                break;
+                                            default:
+                                                System.out.println("\nInvalid choice! Please try again.");
+                                                continue;
+                                        }
+                                        
+                                        if (ingredientChoice.equals("4")) break;
+                                        System.out.println("\nPress Enter to continue...");
+                                        scanner.nextLine();
+                                    }
+                                    break;
+                                case "6":
+                                    userManager.logout();
+                                    System.out.println("\nLogged out successfully!");
+                                    break;
+                                default:
+                                    System.out.println("\nInvalid choice! Please try again.");
+                            }
+
+                            if (menuChoice.equals("6")) break;
+                            System.out.println("\nPress Enter to continue...");
+                            scanner.nextLine();
                         }
-                        
-                        if (ingredientChoice.equals("4")) break;
-                        System.out.println("\nPress Enter to continue...");
-                        scanner.nextLine();
                     }
                     break;
-                case "6":
+                case "2":
+                    handleSignup();
+                    break;
+                case "3":
                     System.out.println("\nThank you for using Recipe Manager!");
                     scanner.close();
                     System.exit(0);
