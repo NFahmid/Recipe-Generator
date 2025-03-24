@@ -51,7 +51,7 @@ public class RecipeManager {
                     String[] parts = line.substring(2).split(", ");
                     ingredients.add(new Ingredient(parts[0], Double.parseDouble(parts[1]), parts[2]));
                 } else if (isStepSection) {
-                    steps.add(line.substring(3));
+                    steps.add(line.substring(2));
                 }
             }
         } catch (IOException e) {
@@ -143,6 +143,14 @@ public class RecipeManager {
         
         addRecipe(name, servings, ingredients, steps);
         System.out.println("\nRecipe added successfully!");
+    }
+
+    public Recipe getRandomRecipe() {
+        if (recipes.isEmpty()) {
+            return null;
+        }
+        Random random = new Random();
+        return recipes.get(random.nextInt(recipes.size()));
     }
 
     private void saveRecipes(String filename) {

@@ -51,6 +51,22 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Recipe: " + name + "\nServings: " + servings + "\nStatus: " + status + " (" + String.format("%.1f", matchPercentage) + "% match)" + "\nIngredients: " + ingredients + "\nSteps: " + steps;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Recipe: ").append(name)
+          .append("\nServings: ").append(servings)
+          .append("\nStatus: ").append(status)
+          .append(" (").append(String.format("%.1f", matchPercentage)).append("% match)")
+          .append("\nIngredients:\n");
+        
+        for (Ingredient ingredient : ingredients) {
+            sb.append("- ").append(ingredient.toString()).append("\n");
+        }
+        
+        sb.append("Steps:\n");
+        for (int i = 0; i < steps.size(); i++) {
+            sb.append(i + 1).append(". ").append(steps.get(i)).append("\n");
+        }
+        
+        return sb.toString();
     }
 }

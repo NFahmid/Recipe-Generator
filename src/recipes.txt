@@ -7,11 +7,11 @@ Ingredients:
 - Soy Sauce, 2.0, tbsp
 - Garlic, 1.0, cloves
 Steps:
-- op all the vegetables.
-- at oil in a pan and sauté garlic.
-- d chopped vegetables and stir-fry for 5 minutes.
-- d soy sauce and stir for another 2 minutes.
-- rve hot.
+- Chop all the vegetables.
+- Heat oil in a pan and sauté garlic.
+- Add chopped vegetables and stir-fry for 5 minutes.
+- Add soy sauce and stir for another 2 minutes.
+- Serve hot.
 ---
 Recipe: Banana Smoothie
 Servings: 2
@@ -20,10 +20,10 @@ Ingredients:
 - Milk, 1.0, cups
 - Honey, 1.0, tbsp
 Steps:
-- el and slice the bananas.
-- d bananas, milk, and honey to a blender.
-- end until smooth.
-- ur into glasses and serve.
+- Peel and slice the bananas.
+- Add bananas, milk, and honey to a blender.
+- Blend until smooth.
+- Pour into glasses and serve.
 ---
 Recipe: Grilled Cheese Sandwich
 Servings: 1
@@ -32,30 +32,194 @@ Ingredients:
 - Butter, 1.0, tbsp
 - Cheddar Cheese, 2.0, slices
 Steps:
-- tter one side of each slice of bread.
-- ace a slice of cheese between the unbuttered sides of the bread.
-- ill the sandwich on a hot pan until golden brown.
-- ip and grill the other side.
-- t and serve hot.
+- Butter one side of each slice of bread.
+- Place a slice of cheese between the unbuttered sides of the bread.
+- Grill the sandwich on a hot pan until golden brown.
+- Flip and grill the other side.
+- Cut and serve hot.
 ---
-Recipe: matha
-Servings: 1
+Recipe: Classic Spaghetti Bolognese
+Servings: 4
 Ingredients:
-- Flour, 200.0, 12
+- Ground Beef, 500.0, g
+- Spaghetti, 400.0, g
+- Onion, 1.0, pieces
+- Garlic, 3.0, cloves
+- Tomato Sauce, 400.0, ml
+- Olive Oil, 2.0, tbsp
+- Salt, 1.0, tsp
+- Black Pepper, 0.5, tsp
 Steps:
-- nao
+- Boil spaghetti according to package instructions.
+- Heat olive oil and sauté chopped onion and garlic.
+- Add ground beef and cook until browned.
+- Pour in tomato sauce and season with salt and pepper.
+- Simmer for 20 minutes and serve over spaghetti.
 ---
-Recipe: moida
-Servings: 1
+Recipe: Chicken Caesar Salad
+Servings: 2
 Ingredients:
-- moida, 100.0, 12
+- Chicken Breast, 2.0, pieces
+- Romaine Lettuce, 1.0, head
+- Parmesan Cheese, 50.0, g
+- Croutons, 100.0, g
+- Caesar Dressing, 4.0, tbsp
 Steps:
-- oida ei lagbe shudhu
+- Grill chicken breasts until cooked through.
+- Chop lettuce into bite-sized pieces.
+- Slice grilled chicken.
+- Toss lettuce with dressing and top with chicken.
+- Add croutons and parmesan cheese.
 ---
-Recipe: blaf
-Servings: 1
+Recipe: Chocolate Chip Cookies
+Servings: 24
 Ingredients:
+- Flour, 250.0, g
+- Butter, 200.0, g
+- Brown Sugar, 150.0, g
+- White Sugar, 100.0, g
+- Eggs, 2.0, pieces
+- Chocolate Chips, 200.0, g
+- Vanilla Extract, 1.0, tsp
+Steps:
+- Cream butter and sugars until fluffy.
+- Beat in eggs and vanilla.
+- Mix in flour gradually.
+- Fold in chocolate chips.
+- Bake at 180°C for 12 minutes.
+---
+Recipe: Vegetable Curry
+Servings: 4
+Ingredients:
+- Potato, 2.0, pieces
+- Carrot, 2.0, pieces
+- Cauliflower, 1.0, head
+- Coconut Milk, 400.0, ml
+- Curry Powder, 2.0, tbsp
+- Onion, 1.0, pieces
+Steps:
+- Chop all vegetables into chunks.
+- Sauté onion until translucent.
+- Add curry powder and stir.
+- Add vegetables and coconut milk.
+- Simmer until vegetables are tender.
+---
+Recipe: Fresh Spring Rolls
+Servings: 6
+Ingredients:
+- Rice Paper, 6.0, pieces
+- Shrimp, 12.0, pieces
+- Rice Noodles, 100.0, g
+- Lettuce, 6.0, leaves
+- Mint, 12.0, leaves
 - Carrot, 1.0, pieces
 Steps:
-- carrot
+- Cook shrimp and slice in half.
+- Prepare rice noodles according to package.
+- Soak rice paper in warm water.
+- Layer ingredients on rice paper.
+- Roll tightly and serve with sauce.
+---
+Recipe: Mushroom Risotto
+Servings: 4
+Ingredients:
+- Arborio Rice, 300.0, g
+- Mushrooms, 200.0, g
+- Onion, 1.0, pieces
+- White Wine, 100.0, ml
+- Vegetable Stock, 1.0, l
+- Parmesan, 50.0, g
+Steps:
+- Sauté mushrooms and onion.
+- Add rice and toast slightly.
+- Pour in wine and let it absorb.
+- Add stock gradually, stirring constantly.
+- Finish with parmesan cheese.
+---
+Recipe: Berry Smoothie Bowl
+Servings: 2
+Ingredients:
+- Mixed Berries, 200.0, g
+- Banana, 1.0, pieces
+- Greek Yogurt, 200.0, g
+- Honey, 2.0, tbsp
+- Granola, 50.0, g
+- Chia Seeds, 2.0, tbsp
+Steps:
+- Blend berries, banana, and yogurt.
+- Pour into bowls.
+- Top with granola and chia seeds.
+- Drizzle with honey.
+- Serve immediately.
+---
+Recipe: Homemade Pizza
+Servings: 4
+Ingredients:
+- Pizza Dough, 400.0, g
+- Tomato Sauce, 200.0, ml
+- Mozzarella, 200.0, g
+- Basil, 10.0, leaves
+- Olive Oil, 2.0, tbsp
+- Salt, 1.0, tsp
+Steps:
+- Roll out pizza dough.
+- Spread tomato sauce evenly.
+- Add cheese and toppings.
+- Drizzle with olive oil.
+- Bake at 220°C for 15 minutes.
+---
+Recipe: Quinoa Buddha Bowl
+Servings: 2
+Ingredients:
+- Quinoa, 150.0, g
+- Sweet Potato, 1.0, pieces
+- Chickpeas, 200.0, g
+- Avocado, 1.0, pieces
+- Kale, 100.0, g
+- Tahini, 2.0, tbsp
+Steps:
+- Cook quinoa according to package.
+- Roast sweet potato and chickpeas.
+- Massage kale with olive oil.
+- Arrange ingredients in bowls.
+- Drizzle with tahini dressing.
+---
+Recipe: Lemon Garlic Shrimp Pasta
+Servings: 4
+Ingredients:
+- Shrimp, 400.0, g
+- Spaghetti, 300.0, g
+- Garlic, 4.0, cloves
+- Lemon, 1.0, pieces
+- Butter, 50.0, g
+- Parsley, 0.25, cup
+Steps:
+- Cook pasta until al dente.
+- Sauté garlic in butter.
+- Add shrimp and cook until pink.
+- Toss with pasta and lemon juice.
+- Garnish with fresh parsley.
+---
+Recipe: Mango Lassi
+Servings: 2
+Ingredients:
+- Mango, 2.0, pieces
+- Yogurt, 250.0, ml
+- Milk, 100.0, ml
+- Cardamom, 0.25, tsp
+- Honey, 2.0, tbsp
+- Ice Cubes, 6.0, pieces
+Steps:
+- Peel and chop mangoes.
+- Blend with yogurt and milk.
+- Add cardamom and honey.
+- Blend with ice until smooth.
+- Serve chilled.
+---
+Recipe: alu
+Servings: 3
+Ingredients:
+- alu lagbe, 100.0, gram
+Steps:
+- alu lagbe shudhu
 ---

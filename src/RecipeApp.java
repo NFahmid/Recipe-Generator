@@ -22,9 +22,10 @@ public class RecipeApp {
         System.out.println("2. View All Recipes");
         System.out.println("3. View Available Recipes");
         System.out.println("4. View Partially Available Recipes");
-        System.out.println("5. Manage Ingredients");
-        System.out.println("6. Logout");
-        System.out.print("\nEnter your choice (1-6): ");
+        System.out.println("5. Get Random Recipe");
+        System.out.println("6. Manage Ingredients");
+        System.out.println("7. Logout");
+        System.out.print("\nEnter your choice (1-7): ");
     }
 
     private static void displayIngredientMenu() {
@@ -187,6 +188,15 @@ public class RecipeApp {
                                     viewPartiallyAvailableRecipes(recipeManager);
                                     break;
                                 case "5":
+                                    Recipe randomRecipe = recipeManager.getRandomRecipe();
+                                    if (randomRecipe != null) {
+                                        System.out.println("\nHere's a random recipe for you:\n");
+                                        System.out.println(randomRecipe);
+                                    } else {
+                                        System.out.println("\nNo recipes available.");
+                                    }
+                                    break;
+                                case "6":
                                     while (true) {
                                         displayIngredientMenu();
                                         String ingredientChoice = scanner.nextLine().trim();
@@ -213,7 +223,7 @@ public class RecipeApp {
                                         scanner.nextLine();
                                     }
                                     break;
-                                case "6":
+                                case "7":
                                     userManager.logout();
                                     System.out.println("\nLogged out successfully!");
                                     break;
