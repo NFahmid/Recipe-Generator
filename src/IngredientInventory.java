@@ -26,6 +26,20 @@ public class IngredientInventory {
         availableIngredients.remove(name.toLowerCase());
     }
 
+    public boolean removeIngredientAmount(String name, double amount) {
+        Ingredient ingredient = availableIngredients.get(name.toLowerCase());
+        if (ingredient == null || ingredient.getQuantity() < amount) {
+            return false;
+        }
+        double newQuantity = ingredient.getQuantity() - amount;
+        if (newQuantity > 0) {
+            availableIngredients.put(name.toLowerCase(), new Ingredient(ingredient.getName(), newQuantity, ingredient.getUnit()));
+        } else {
+            availableIngredients.remove(name.toLowerCase());
+        }
+        return true;
+    }
+
     public boolean hasIngredient(String name, double quantity) {
         Ingredient available = availableIngredients.get(name.toLowerCase());
         return available != null && available.getQuantity() >= quantity;
@@ -33,6 +47,11 @@ public class IngredientInventory {
 
     public Map<String, Ingredient> getAvailableIngredients() {
         return new HashMap<>(availableIngredients);
+    }
+
+    public double getIngredientAmount(String name) {
+        Ingredient ingredient = availableIngredients.get(name.toLowerCase());
+        return ingredient != null ? ingredient.getQuantity() : 0.0;
     }
 
     public void loadIngredientsFromFile(String filename) {

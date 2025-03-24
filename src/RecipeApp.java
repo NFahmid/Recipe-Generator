@@ -85,6 +85,30 @@ public class RecipeApp {
         System.out.println("Ingredient removed successfully!");
     }
 
+    private static void handleRecipeSelection(List<Recipe> recipes) {
+        if (recipes.isEmpty()) return;
+
+        System.out.println("\nWould you like to cook one of these recipes? (y/n): ");
+        String response = scanner.nextLine().trim().toLowerCase();
+
+        if (response.equals("y")) {
+            System.out.print("Enter the recipe number to cook (1-" + recipes.size() + "): ");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine().trim());
+                if (choice > 0 && choice <= recipes.size()) {
+                    Recipe selectedRecipe = recipes.get(choice - 1);
+                    StepByStepCookingMode cookingMode = new StepByStepCookingMode(userManager.getCurrentUser());
+                    cookingMode.startCooking(selectedRecipe);
+                    recipeManager.refreshAvailability();
+                } else {
+                    System.out.println("Invalid recipe number.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
     private static void viewAllRecipes(RecipeManager recipeManager) {
         System.out.println("\nAll Recipes:\n");
         List<Recipe> recipes = recipeManager.getAllRecipes();
@@ -93,10 +117,12 @@ public class RecipeApp {
             return;
         }
         
-        // First display all recipes
+        int count = 1;
         for (Recipe recipe : recipes) {
+            System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             System.out.println(recipe);
             System.out.println();
+            count++;
         }
         
         // Ask if user wants to adjust serving sizes
@@ -135,6 +161,7 @@ public class RecipeApp {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             count++;
         }
+        handleRecipeSelection(availableRecipes);
     }
 
     private static void viewPartiallyAvailableRecipes(RecipeManager recipeManager) {
@@ -149,6 +176,7 @@ public class RecipeApp {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             count++;
         }
+        handleRecipeSelection(partialRecipes);
     }
 
     private static boolean handleLogin() {
@@ -205,18 +233,24 @@ public class RecipeApp {
                                     break;
                                 case "2":
                                     viewAllRecipes(recipeManager);
+                                    handleRecipeSelection(recipeManager.getAllRecipes());
                                     break;
                                 case "3":
                                     viewAvailableRecipes(recipeManager);
+                                    handleRecipeSelection(recipeManager.getAvailableRecipes());
                                     break;
                                 case "4":
                                     viewPartiallyAvailableRecipes(recipeManager);
+                                    handleRecipeSelection(recipeManager.getPartiallyAvailableRecipes());
                                     break;
                                 case "5":
                                     Recipe randomRecipe = recipeManager.getRandomRecipe();
                                     if (randomRecipe != null) {
                                         System.out.println("\nHere's a random recipe for you:\n");
                                         System.out.println(randomRecipe);
+                                        List<Recipe> singleRecipe = new ArrayList<>();
+                                        singleRecipe.add(randomRecipe);
+                                        handleRecipeSelection(singleRecipe);
                                     } else {
                                         System.out.println("\nNo recipes available.");
                                     }
