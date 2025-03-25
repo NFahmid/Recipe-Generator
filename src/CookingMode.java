@@ -1,3 +1,3 @@
 public interface CookingMode {
-    void startCooking(Recipe recipe);
+    void startCooking(AbstractRecipe recipe);
 }

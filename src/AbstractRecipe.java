@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class Recipe {
-    private String name;
-    private int servings;
-    private List<Ingredient> ingredients;
-    private List<String> steps;
-    private RecipeStatus status;
-    private double matchPercentage;
+public abstract class AbstractRecipe {
+    protected String name;
+    protected int servings;
+    protected List<Ingredient> ingredients;
+    protected List<String> steps;
+    protected RecipeStatus status;
+    protected double matchPercentage;
 
     public enum RecipeStatus {
         FULLY_AVAILABLE,
@@ -14,7 +14,7 @@ public class Recipe {
         NOT_AVAILABLE
     }
 
-    public Recipe(String name, List<Ingredient> ingredients, List<String> steps, int servings) {
+    public AbstractRecipe(String name, List<Ingredient> ingredients, List<String> steps, int servings) {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -23,7 +23,7 @@ public class Recipe {
         this.matchPercentage = 0.0;
     }
 
-    public Recipe adjustServings(int desiredServings) {
+    public AbstractRecipe adjustServings(int desiredServings) {
         if (desiredServings <= 0) return this;
         
         List<Ingredient> adjustedIngredients = new ArrayList<>();
@@ -34,11 +34,13 @@ public class Recipe {
             adjustedIngredients.add(new Ingredient(ingredient.getName(), adjustedQuantity, ingredient.getUnit()));
         }
         
-        return new Recipe(this.name + " (Adjusted for " + desiredServings + " servings)",
+        return createAdjustedRecipe(this.name + " (Adjusted for " + desiredServings + " servings)",
                          adjustedIngredients,
                          new ArrayList<>(this.steps),
                          desiredServings);
     }
+
+    protected abstract AbstractRecipe createAdjustedRecipe(String name, List<Ingredient> ingredients, List<String> steps, int servings);
 
     public String getName() { return name; }
     public int getServings() { return servings; }
@@ -85,7 +87,6 @@ public class Recipe {
           .append("\n").append(ConsoleColors.BLUE_BOLD).append("Servings: ").append(ConsoleColors.RESET).append(servings)
           .append("\n").append(ConsoleColors.BLUE_BOLD).append("Status: ").append(ConsoleColors.RESET);
 
-        // Add color based on recipe status
         switch (status) {
             case FULLY_AVAILABLE:
                 sb.append(ConsoleColors.GREEN).append(status);

@@ -60,6 +60,18 @@ public class IngredientInventory {
         return new HashMap<>(availableIngredients);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ConsoleColors.BLUE_BOLD).append("Available Ingredients:").append(ConsoleColors.RESET).append("\n");
+        
+        for (Ingredient ingredient : availableIngredients.values()) {
+            sb.append(ConsoleColors.CYAN).append("- ").append(ConsoleColors.RESET)
+              .append(ingredient.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public double getIngredientAmount(String name) {
         String lowercaseName = name.toLowerCase().trim();
         Ingredient ingredient = availableIngredients.get(lowercaseName);

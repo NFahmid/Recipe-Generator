@@ -15,6 +15,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return name + " (" + quantity + " " + unit + ")";
+        return ConsoleColors.PURPLE + name + ConsoleColors.RESET + " (" + 
+               ConsoleColors.CYAN + quantity + " " + unit + ConsoleColors.RESET + ")";
     }
 }

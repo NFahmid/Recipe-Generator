@@ -10,31 +10,31 @@ public class RecipeApp {
 
     private static void displayAuthMenu() {
         System.out.println("\n=== Recipe Manager Login ===");
-        System.out.println("1. Login");
-        System.out.println("2. Sign Up");
-        System.out.println("3. Exit");
+        System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " Login");
+        System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " Sign Up");
+        System.out.println(ConsoleColors.CYAN + "3." + ConsoleColors.RESET + " Exit");
         System.out.print("\nEnter your choice (1-3): ");
     }
 
     private static void displayMenu() {
         System.out.println("\n=== Recipe Manager Menu ===");
-        System.out.println("1. Add New Recipe");
-        System.out.println("2. View All Recipes");
-        System.out.println("3. View Available Recipes");
-        System.out.println("4. View Partially Available Recipes");
-        System.out.println("5. Get Random Recipe");
-        System.out.println("6. Manage Ingredients");
-        System.out.println("7. View Cooking History");
-        System.out.println("8. Logout");
+        System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " Add New Recipe");
+        System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " View All Recipes");
+        System.out.println(ConsoleColors.CYAN + "3." + ConsoleColors.RESET + " View Available Recipes");
+        System.out.println(ConsoleColors.CYAN + "4." + ConsoleColors.RESET + " View Partially Available Recipes");
+        System.out.println(ConsoleColors.CYAN + "5." + ConsoleColors.RESET + " Get Random Recipe");
+        System.out.println(ConsoleColors.CYAN + "6." + ConsoleColors.RESET + " Manage Ingredients");
+        System.out.println(ConsoleColors.CYAN + "7." + ConsoleColors.RESET + " View Cooking History");
+        System.out.println(ConsoleColors.CYAN + "8." + ConsoleColors.RESET + " Logout");
         System.out.print("\nEnter your choice (1-8): ");
     }
 
     private static void displayIngredientMenu() {
         System.out.println("\n=== Ingredient Management ===");
-        System.out.println("1. View All Ingredients");
-        System.out.println("2. Add New Ingredient");
-        System.out.println("3. Remove Ingredient");
-        System.out.println("4. Back to Main Menu");
+        System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " View All Ingredients");
+        System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " Add New Ingredient");
+        System.out.println(ConsoleColors.CYAN + "3." + ConsoleColors.RESET + " Remove Ingredient");
+        System.out.println(ConsoleColors.CYAN + "4." + ConsoleColors.RESET + " Back to Main Menu");
         System.out.print("\nEnter your choice (1-4): ");
     }
 
@@ -101,7 +101,7 @@ public class RecipeApp {
         scanner.nextLine();
     }
 
-    private static void handleRecipeSelection(List<Recipe> recipes) {
+    private static void handleRecipeSelection(List<AbstractRecipe> recipes) {
         if (recipes.isEmpty()) return;
 
         System.out.println("\nWould you like to cook one of these recipes? (y/n): ");
@@ -112,7 +112,7 @@ public class RecipeApp {
             try {
                 int choice = Integer.parseInt(scanner.nextLine().trim());
                 if (choice > 0 && choice <= recipes.size()) {
-                    Recipe selectedRecipe = recipes.get(choice - 1);
+                    AbstractRecipe selectedRecipe = recipes.get(choice - 1);
                     StepByStepCookingMode cookingMode = new StepByStepCookingMode(userManager.getCurrentUser());
                     cookingMode.startCooking(selectedRecipe);
                     recipeManager.refreshAvailability();
@@ -129,14 +129,14 @@ public class RecipeApp {
         recipeManager.refreshAvailability();
 
         System.out.println("\nAll Recipes:\n");
-        List<Recipe> recipeList = recipeManager.getAllRecipes();
+        List<AbstractRecipe> recipeList = recipeManager.getAllRecipes();
         if (recipeList.isEmpty()) {
             System.out.println("No recipes found.");
             return;
         }
 
         int count = 1;
-        for (Recipe recipe : recipeList) {
+        for (AbstractRecipe recipe : recipeList) {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             System.out.println(recipe);
             System.out.println();
@@ -152,8 +152,8 @@ public class RecipeApp {
                 int desiredServings = Integer.parseInt(scanner.nextLine().trim());
                 if (desiredServings > 0) {
                     System.out.println("\nAdjusted Recipes:\n");
-                    for (Recipe recipe : recipeList) {
-                        Recipe adjustedRecipe = recipe.adjustServings(desiredServings);
+                    for (AbstractRecipe recipe : recipeList) {
+                        AbstractRecipe adjustedRecipe = recipe.adjustServings(desiredServings);
                         System.out.println(adjustedRecipe);
                         System.out.println();
                     }
@@ -168,13 +168,13 @@ public class RecipeApp {
 
     private static void viewAvailableRecipes(RecipeManager recipeManager) {
         System.out.println("\nFully Available Recipes:\n");
-        List<Recipe> availableRecipes = recipeManager.getAvailableRecipes();
+        List<AbstractRecipe> availableRecipes = recipeManager.getAvailableRecipes();
         if (availableRecipes.isEmpty()) {
             System.out.println("No fully available recipes found.");
             return;
         }
         int count = 1;
-        for (Recipe recipe : availableRecipes) {
+        for (AbstractRecipe recipe : availableRecipes) {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             count++;
         }
@@ -183,13 +183,13 @@ public class RecipeApp {
 
     private static void viewPartiallyAvailableRecipes(RecipeManager recipeManager) {
         System.out.println("\nPartially Available Recipes:\n");
-        List<Recipe> partialRecipes = recipeManager.getPartiallyAvailableRecipes();
+        List<AbstractRecipe> partialRecipes = recipeManager.getPartiallyAvailableRecipes();
         if (partialRecipes.isEmpty()) {
             System.out.println("No partially available recipes found.");
             return;
         }
         int count = 1;
-        for (Recipe recipe : partialRecipes) {
+        for (AbstractRecipe recipe : partialRecipes) {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             count++;
         }
@@ -261,11 +261,11 @@ public class RecipeApp {
                                     handleRecipeSelection(recipeManager.getPartiallyAvailableRecipes());
                                     break;
                                 case "5":
-                                    Recipe randomRecipe = recipeManager.getRandomRecipe();
+                                    AbstractRecipe randomRecipe = recipeManager.getRandomRecipe();
                                     if (randomRecipe != null) {
                                         System.out.println("\nHere's a random recipe for you:\n");
                                         System.out.println(randomRecipe);
-                                        List<Recipe> singleRecipe = new ArrayList<>();
+                                        List<AbstractRecipe> singleRecipe = new ArrayList<>();
                                         singleRecipe.add(randomRecipe);
                                         handleRecipeSelection(singleRecipe);
                                     } else {

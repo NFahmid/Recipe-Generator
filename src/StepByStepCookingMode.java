@@ -16,7 +16,7 @@ public class StepByStepCookingMode implements CookingMode {
     }
 
     @Override
-    public void startCooking(Recipe recipe) {
+    public void startCooking(AbstractRecipe recipe) {
         List<String> steps = recipe.getSteps();
         List<Ingredient> ingredients = recipe.getIngredients();
         currentHistory = new RecipeHistory(recipe.getName(), recipe.getServings(), recipe);
@@ -36,7 +36,7 @@ public class StepByStepCookingMode implements CookingMode {
         usedIngredients.clear();
     }
 
-    private boolean processStep(Recipe recipe, int stepIndex) {
+    private boolean processStep(AbstractRecipe recipe, int stepIndex) {
         List<String> steps = recipe.getSteps();
         System.out.println("\nStep " + (stepIndex + 1) + ": " + steps.get(stepIndex));
 
@@ -58,7 +58,7 @@ public class StepByStepCookingMode implements CookingMode {
         }
     }
 
-    private boolean handleIngredients(Recipe recipe, int stepIndex) {
+    private boolean handleIngredients(AbstractRecipe recipe, int stepIndex) {
         IngredientInventory inventory = currentUser.getPersonalInventory();
         List<Ingredient> recipeIngredients = recipe.getIngredients();
 

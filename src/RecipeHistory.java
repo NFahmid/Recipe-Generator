@@ -5,9 +5,9 @@ public class RecipeHistory {
     private int servings;
     private Date cookingDate;
     private Map<String, String> ingredientUsage;
-    private Recipe recipe;
+    private AbstractRecipe recipe;
 
-    public RecipeHistory(String recipeName, int servings, Recipe recipe) {
+    public RecipeHistory(String recipeName, int servings, AbstractRecipe recipe) {
         this.recipeName = recipeName;
         this.servings = servings;
         this.cookingDate = new Date();
@@ -15,7 +15,7 @@ public class RecipeHistory {
         this.recipe = recipe;
     }
 
-    public Recipe getRecipe() {
+    public AbstractRecipe getRecipe() {
         return recipe;
     }
 

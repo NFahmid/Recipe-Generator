@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 public class RecipeManager {
     private static RecipeManager instance;
-    private List<Recipe> recipes;
+    private List<AbstractRecipe> recipes;
     private UserManager userManager;
 
     private RecipeManager() {
@@ -44,7 +44,19 @@ public class RecipeManager {
                     isIngredientSection = false;
                     isStepSection = true;
                 } else if (line.equals("---")) {
-                    recipes.add(new Recipe(name, new ArrayList<>(ingredients), new ArrayList<>(steps), servings));
+                    // Create appropriate recipe type based on name or ingredients
+                    AbstractRecipe recipe;
+                    if (name.toLowerCase().contains("dessert") || name.toLowerCase().contains("cake") || 
+                        name.toLowerCase().contains("cookie") || name.toLowerCase().contains("pie")) {
+                        recipe = new DessertRecipe(name, new ArrayList<>(ingredients), new ArrayList<>(steps), servings);
+                    } else if (name.toLowerCase().contains("drink") || name.toLowerCase().contains("smoothie") || 
+                             name.toLowerCase().contains("juice") || name.toLowerCase().contains("tea") || 
+                             name.toLowerCase().contains("coffee")) {
+                        recipe = new BeverageRecipe(name, new ArrayList<>(ingredients), new ArrayList<>(steps), servings);
+                    } else {
+                        recipe = new MainDishRecipe(name, new ArrayList<>(ingredients), new ArrayList<>(steps), servings);
+                    }
+                    recipes.add(recipe);
                     ingredients.clear();
                     steps.clear();
                 } else if (isIngredientSection) {
@@ -64,24 +76,24 @@ public class RecipeManager {
         User currentUser = userManager.getCurrentUser();
         if (currentUser == null) return;
         
-        for (Recipe recipe : recipes) {
+        for (AbstractRecipe recipe : recipes) {
             recipe.updateAvailabilityStatus(currentUser.getPersonalInventory());
         }
     }
 
-    public List<Recipe> getAllRecipes() {
+    public List<AbstractRecipe> getAllRecipes() {
         return new ArrayList<>(recipes);
     }
 
-    public List<Recipe> getAvailableRecipes() {
+    public List<AbstractRecipe> getAvailableRecipes() {
         return recipes.stream()
-                .filter(r -> r.getStatus() == Recipe.RecipeStatus.FULLY_AVAILABLE)
+                .filter(r -> r.getStatus() == AbstractRecipe.RecipeStatus.FULLY_AVAILABLE)
                 .collect(Collectors.toList());
     }
 
-    public List<Recipe> getPartiallyAvailableRecipes() {
+    public List<AbstractRecipe> getPartiallyAvailableRecipes() {
         return recipes.stream()
-                .filter(r -> r.getStatus() == Recipe.RecipeStatus.PARTIALLY_AVAILABLE)
+                .filter(r -> r.getStatus() == AbstractRecipe.RecipeStatus.PARTIALLY_AVAILABLE)
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +102,17 @@ public class RecipeManager {
     }
 
     public void addRecipe(String name, int servings, List<Ingredient> ingredients, List<String> steps) {
-        Recipe newRecipe = new Recipe(name, ingredients, steps, servings);
+        AbstractRecipe newRecipe;
+        if (name.toLowerCase().contains("dessert") || name.toLowerCase().contains("cake") || 
+            name.toLowerCase().contains("cookie") || name.toLowerCase().contains("pie")) {
+            newRecipe = new DessertRecipe(name, ingredients, steps, servings);
+        } else if (name.toLowerCase().contains("drink") || name.toLowerCase().contains("smoothie") || 
+                   name.toLowerCase().contains("juice") || name.toLowerCase().contains("tea") || 
+                   name.toLowerCase().contains("coffee")) {
+            newRecipe = new BeverageRecipe(name, ingredients, steps, servings);
+        } else {
+            newRecipe = new MainDishRecipe(name, ingredients, steps, servings);
+        }
         recipes.add(newRecipe);
         updateRecipeAvailability();
         saveRecipes("src/recipes.txt");
@@ -145,7 +167,7 @@ public class RecipeManager {
         System.out.println("\nRecipe added successfully!");
     }
 
-    public Recipe getRandomRecipe() {
+    public AbstractRecipe getRandomRecipe() {
         if (recipes.isEmpty()) {
             return null;
         }
@@ -155,7 +177,7 @@ public class RecipeManager {
 
     private void saveRecipes(String filename) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
-            for (Recipe recipe : recipes) {
+            for (AbstractRecipe recipe : recipes) {
                 writer.println("Recipe: " + recipe.getName());
                 writer.println("Servings: " + recipe.getServings());
                 writer.println("Ingredients:");
