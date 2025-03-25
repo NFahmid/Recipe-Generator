@@ -93,7 +93,7 @@ public class IngredientInventory {
     }
 
     public void loadIngredientsFromFile(String filename) {
-        availableIngredients.clear(); // Clear existing ingredients before loading
+        availableIngredients.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {

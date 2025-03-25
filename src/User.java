@@ -31,24 +31,27 @@ public class User {
     }
 
     private String hashPassword(String password) {
-        StringBuilder result = new StringBuilder();
-        for (char c : password.toCharArray()) {
-            if (Character.isLetter(c)) {
-                char base = Character.isUpperCase(c) ? 'A' : 'a';
-                char shifted = (char) (((c - base + 3) % 26) + base);
-                result.append(shifted);
-            } else if (Character.isDigit(c)) {
-                char shifted = (char) (((c - '0' + 3) % 10) + '0');
-                result.append(shifted);
-            } else {
-                result.append(c);
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
             }
+
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
-        return result.toString();
     }
 
     public boolean validatePassword(String password) {
-        return Objects.equals(this.hashedPassword, hashPassword(password));
+        String hashedInput = hashPassword(password);
+        return Objects.equals(this.hashedPassword, hashedInput);
     }
 
     public IngredientInventory getPersonalInventory() {
