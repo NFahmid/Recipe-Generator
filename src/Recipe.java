@@ -49,15 +49,27 @@ public class Recipe {
 
     public void updateAvailabilityStatus(IngredientInventory inventory) {
         int availableCount = 0;
-        for (Ingredient ingredient : ingredients) {
-            if (inventory.hasIngredient(ingredient.getName(), ingredient.getQuantity())) {
-                availableCount++;
+        double totalMatchPercentage = 0.0;
+
+        for (Ingredient recipeIngredient : ingredients) {
+            String recipeIngredientName = recipeIngredient.getName();
+            double requiredAmount = recipeIngredient.getQuantity();
+            double availableAmount = inventory.getIngredientAmount(recipeIngredientName);
+
+            if (availableAmount > 0) {
+                if (availableAmount >= requiredAmount) {
+                    availableCount++;
+                    totalMatchPercentage += 100.0;
+                } else {
+                    double matchPercent = (availableAmount / requiredAmount) * 100.0;
+                    totalMatchPercentage += matchPercent;
+                }
             }
         }
 
-        matchPercentage = (double) availableCount / ingredients.size() * 100;
-        
-        if (matchPercentage == 100) {
+        matchPercentage = totalMatchPercentage / ingredients.size();
+
+        if (matchPercentage >= 99.99) {
             status = RecipeStatus.FULLY_AVAILABLE;
         } else if (matchPercentage > 0) {
             status = RecipeStatus.PARTIALLY_AVAILABLE;

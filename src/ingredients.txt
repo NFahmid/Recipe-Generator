@@ -9,3 +9,9 @@ Honey, 1, jar
 Bread, 6, slices
 Butter, 2, packets
 Cheddar Cheese, 10, slices
+
+
+there is a problem with the ingredients storing, when i add an ingredient from the add ingredient feature in the UI, it isnt being stored in the ingredient txt file dedicated for that certain user
+- it only shows the ingredients that i recently added, but when i rerun the program, the ingredients are gone
+- i think the problem is with the storing of the ingredients, i think the ingredients are being stored in the ingredients.txt file
+- also altough the ingredients are being shown in view ingredients when i recently add them ( although they are gone when i rerun them), it doesnt show matched ingredients in the view recipes page(though the ingredients are same as that of in the recipe)

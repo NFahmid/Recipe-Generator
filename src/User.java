@@ -2,16 +2,20 @@ import java.util.Objects;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private String username;
     private String hashedPassword;
     private IngredientInventory personalInventory;
+    private List<RecipeHistory> cookingHistory;
 
     public User(String username, String password) {
         this.username = username;
         this.hashedPassword = hashPassword(password);
         this.personalInventory = IngredientInventory.getInstance();
+        this.cookingHistory = new ArrayList<>();
     }
 
     public String getHashedPassword() {
@@ -49,6 +53,14 @@ public class User {
 
     public IngredientInventory getPersonalInventory() {
         return personalInventory;
+    }
+
+    public void addCookingHistory(RecipeHistory history) {
+        cookingHistory.add(history);
+    }
+
+    public List<RecipeHistory> getCookingHistory() {
+        return cookingHistory;
     }
 
     @Override

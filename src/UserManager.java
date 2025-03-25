@@ -35,9 +35,9 @@ public class UserManager {
         saveUsers();
         
         // Create empty ingredient file for new user
-        String filename = USER_INGREDIENTS_DIR + username + "_ingredients.txt";
+        String ingredientFilePath = USER_INGREDIENTS_DIR + username + "_ingredients.txt";
         try {
-            new File(filename).createNewFile();
+            new File(ingredientFilePath).createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }

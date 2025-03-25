@@ -24,8 +24,9 @@ public class RecipeApp {
         System.out.println("4. View Partially Available Recipes");
         System.out.println("5. Get Random Recipe");
         System.out.println("6. Manage Ingredients");
-        System.out.println("7. Logout");
-        System.out.print("\nEnter your choice (1-7): ");
+        System.out.println("7. View Cooking History");
+        System.out.println("8. Logout");
+        System.out.print("\nEnter your choice (1-8): ");
     }
 
     private static void displayIngredientMenu() {
@@ -85,6 +86,21 @@ public class RecipeApp {
         System.out.println("Ingredient removed successfully!");
     }
 
+    private static void viewCookingHistory(User user) {
+        List<RecipeHistory> history = user.getCookingHistory();
+        if (history.isEmpty()) {
+            System.out.println("\nNo cooking history found.");
+            return;
+        }
+
+        System.out.println("\n=== Your Cooking History ===");
+        for (RecipeHistory entry : history) {
+            System.out.println(entry);
+        }
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
     private static void handleRecipeSelection(List<Recipe> recipes) {
         if (recipes.isEmpty()) return;
 
@@ -110,32 +126,33 @@ public class RecipeApp {
     }
 
     private static void viewAllRecipes(RecipeManager recipeManager) {
+        recipeManager.refreshAvailability();
+
         System.out.println("\nAll Recipes:\n");
-        List<Recipe> recipes = recipeManager.getAllRecipes();
-        if (recipes.isEmpty()) {
+        List<Recipe> recipeList = recipeManager.getAllRecipes();
+        if (recipeList.isEmpty()) {
             System.out.println("No recipes found.");
             return;
         }
-        
+
         int count = 1;
-        for (Recipe recipe : recipes) {
+        for (Recipe recipe : recipeList) {
             System.out.println(count + ". " + recipe.getName() + " - " + recipe.getMatchPercentage() + "% match");
             System.out.println(recipe);
             System.out.println();
             count++;
         }
-        
-        // Ask if user wants to adjust serving sizes
+
         System.out.print("\nWould you like to adjust the serving size for all recipes? (y/n): ");
         String response = scanner.nextLine().trim().toLowerCase();
-        
+
         if (response.equals("y")) {
             System.out.print("Enter desired number of servings: ");
             try {
                 int desiredServings = Integer.parseInt(scanner.nextLine().trim());
                 if (desiredServings > 0) {
                     System.out.println("\nAdjusted Recipes:\n");
-                    for (Recipe recipe : recipes) {
+                    for (Recipe recipe : recipeList) {
                         Recipe adjustedRecipe = recipe.adjustServings(desiredServings);
                         System.out.println(adjustedRecipe);
                         System.out.println();
@@ -283,6 +300,9 @@ public class RecipeApp {
                                     }
                                     break;
                                 case "7":
+                                    viewCookingHistory(userManager.getCurrentUser());
+                                    break;
+                                case "8":
                                     userManager.logout();
                                     System.out.println("\nLogged out successfully!");
                                     break;
@@ -290,7 +310,7 @@ public class RecipeApp {
                                     System.out.println("\nInvalid choice! Please try again.");
                             }
 
-                            if (menuChoice.equals("6")) break;
+                            if (menuChoice.equals("8")) break;
                             System.out.println("\nPress Enter to continue...");
                             scanner.nextLine();
                         }

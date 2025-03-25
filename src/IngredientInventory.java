@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class IngredientInventory {
@@ -19,11 +17,22 @@ public class IngredientInventory {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        availableIngredients.put(ingredient.getName().toLowerCase(), ingredient);
+        String lowercaseName = ingredient.getName().toLowerCase();
+        Ingredient existingIngredient = availableIngredients.get(lowercaseName);
+        
+        if (existingIngredient != null) {
+            double newQuantity = existingIngredient.getQuantity() + ingredient.getQuantity();
+            availableIngredients.put(lowercaseName, new Ingredient(existingIngredient.getName(), newQuantity, existingIngredient.getUnit()));
+        } else {
+            availableIngredients.put(lowercaseName, ingredient);
+        }
+        
+        saveIngredientsToFile();
     }
 
     public void removeIngredient(String name) {
         availableIngredients.remove(name.toLowerCase());
+        saveIngredientsToFile();
     }
 
     public boolean removeIngredientAmount(String name, double amount) {
@@ -37,11 +46,13 @@ public class IngredientInventory {
         } else {
             availableIngredients.remove(name.toLowerCase());
         }
+        saveIngredientsToFile();
         return true;
     }
 
     public boolean hasIngredient(String name, double quantity) {
-        Ingredient available = availableIngredients.get(name.toLowerCase());
+        String lowercaseName = name.toLowerCase().trim();
+        Ingredient available = availableIngredients.get(lowercaseName);
         return available != null && available.getQuantity() >= quantity;
     }
 
@@ -50,11 +61,27 @@ public class IngredientInventory {
     }
 
     public double getIngredientAmount(String name) {
-        Ingredient ingredient = availableIngredients.get(name.toLowerCase());
+        String lowercaseName = name.toLowerCase().trim();
+        Ingredient ingredient = availableIngredients.get(lowercaseName);
         return ingredient != null ? ingredient.getQuantity() : 0.0;
     }
 
+    private void saveIngredientsToFile() {
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String filename = "src/user_ingredients/" + currentUser.getUsername() + "_ingredients.txt";
+            try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+                for (Ingredient ing : availableIngredients.values()) {
+                    writer.println(ing.getName() + ", " + ing.getQuantity() + ", " + ing.getUnit());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void loadIngredientsFromFile(String filename) {
+        availableIngredients.clear(); // Clear existing ingredients before loading
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -63,10 +90,12 @@ public class IngredientInventory {
 
                 String[] parts = line.split(", ");
                 if (parts.length == 3) {
-                    String name = parts[0];
+                    String name = parts[0].trim();
                     double quantity = Double.parseDouble(parts[1]);
-                    String unit = parts[2];
-                    addIngredient(new Ingredient(name, quantity, unit));
+                    String unit = parts[2].trim();
+                    Ingredient ingredient = new Ingredient(name, quantity, unit);
+                    String lowercaseName = name.toLowerCase();
+                    availableIngredients.put(lowercaseName, ingredient);
                 }
             }
         } catch (IOException e) {

@@ -7,6 +7,7 @@ public class StepByStepCookingMode implements CookingMode {
     private Scanner scanner;
     private Map<String, Double> usedIngredients;
     private User currentUser;
+    private RecipeHistory currentHistory;
 
     public StepByStepCookingMode(User user) {
         this.scanner = new Scanner(System.in);
@@ -18,21 +19,20 @@ public class StepByStepCookingMode implements CookingMode {
     public void startCooking(Recipe recipe) {
         List<String> steps = recipe.getSteps();
         List<Ingredient> ingredients = recipe.getIngredients();
+        currentHistory = new RecipeHistory(recipe.getName(), recipe.getServings(), recipe);
         System.out.println("\nStarting Cooking Mode for " + recipe.getName());
         System.out.println("Total steps: " + steps.size());
         System.out.println("Press Enter to start cooking...");
         scanner.nextLine();
 
-        for (int i = 0; i < steps.size(); i++) {
-            if (!processStep(recipe, i)) {
-                // If user cancels, rollback ingredient deductions
+        for (int i = 0; i < steps.size(); i++) {            if (!processStep(recipe, i)) {
                 rollbackIngredients();
                 return;
             }
         }
 
         System.out.println("\nCongratulations! You have completed cooking " + recipe.getName() + "!");
-        // Clear used ingredients map after successful completion
+        currentUser.addCookingHistory(currentHistory);
         usedIngredients.clear();
     }
 
@@ -40,7 +40,6 @@ public class StepByStepCookingMode implements CookingMode {
         List<String> steps = recipe.getSteps();
         System.out.println("\nStep " + (stepIndex + 1) + ": " + steps.get(stepIndex));
 
-        // Check and deduct ingredients for this step
         if (!handleIngredients(recipe, stepIndex)) {
             return false;
         }
@@ -93,9 +92,11 @@ public class StepByStepCookingMode implements CookingMode {
                         case "2":
                             System.out.println("Proceeding with alternative ingredient. Please use your preferred substitute for " + 
                                              requiredAmount + " " + ingredient.getUnit() + " of " + ingredient.getName());
+                            currentHistory.markIngredientAlternative(ingredient.getName());
                             return true;
                         case "3":
                             System.out.println("Skipping " + ingredient.getName() + ". Note that this might affect the final result.");
+                            currentHistory.markIngredientSkipped(ingredient.getName());
                             return true;
                         case "4":
                             return false;
@@ -112,11 +113,20 @@ public class StepByStepCookingMode implements CookingMode {
 
     private void deductIngredient(String name, double amount) {
         IngredientInventory inventory = currentUser.getPersonalInventory();
+        String unit = null;
+        for (Ingredient ingredient : currentHistory.getRecipe().getIngredients()) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                unit = ingredient.getUnit();
+                break;
+            }
+        }
+        
         if (!inventory.removeIngredientAmount(name, amount)) {
             System.out.println("Error: Failed to deduct " + amount + " of " + name + " from inventory.");
             return;
         }
         usedIngredients.merge(name, amount, Double::sum);
+        currentHistory.addIngredientUsage(name, amount, unit);
     }
 
     private void rollbackIngredients() {
