@@ -1,0 +1,111 @@
+LAB REPORT: RECIPE GENERATOR
+
+Student Name: Nuren Fahmid
+Student ID: 220042121
+
+1. PROJECT OVERVIEW
+The Recipe Generator is a comprehensive Java-based application designed to help users manage recipes, track ingredients, and follow cooking instructions in an organized manner. The primary objective is to provide a user-friendly platform that promotes healthy cooking by enabling users to discover, manage, and execute recipes while considering available ingredients and dietary preferences.
+
+2. PROJECT DETAILS
+
+Architecture:
+The project follows a modular architecture with clear separation of concerns:
+- Core Recipe Management: Handles recipe creation, storage, and retrieval
+- User Management: Manages user authentication and personal ingredient inventory
+- Cooking Mode: Provides interactive cooking instructions
+- Data Persistence: Handles file-based storage of recipes, ingredients, and user data
+
+Functionality:
+- Recipe Management System: Users can create, view, and modify recipes
+- Ingredient Tracking: Maintains inventory of available ingredients
+- Recipe Availability Check: Determines if recipes can be made with available ingredients
+- Serving Size Adjustment: Automatically recalculates ingredient quantities
+- Step-by-Step Cooking Instructions: Guides users through recipe execution
+
+3. KEY FEATURES
+
+a) Smart Ingredient Matching
+- Automatically compares user's available ingredients with recipe requirements
+- Calculates percentage match for partially available recipes
+- Updates recipe status (Available/Partially Available) in real-time
+- Implemented through IngredientInventory and RecipeRepository classes
+
+b) Random Meal Suggestion
+- Provides random recipe recommendations based on available ingredients
+- Considers user's cooking history to avoid repetition
+- Supports different recipe types (Main Dish, Dessert, Beverage)
+- Implemented via RecipeManager's getRandomRecipe() functionality
+
+c) Step-by-Step Cooking Mode
+- Interactive cooking instructions with progress tracking
+- Automatic ingredient deduction from inventory during cooking
+- Suggests ingredient alternatives during preparation
+- Clear presentation of recipe steps with timing guidance
+- Implemented through StepByStepCookingMode class
+
+d) Adjustable Serving Sizes
+- Dynamic recalculation of ingredient quantities
+- Maintains proper proportions for all ingredients
+- Supports both scaling up and down of recipes
+- Updates cooking instructions accordingly
+- Implemented within AbstractRecipe and its subclasses
+
+e) Recipe History
+- Tracks all cooking sessions with timestamps
+- Records ingredient usage and modifications
+- Maintains user-specific cooking history
+- Helps in meal planning and inventory management
+- Implemented through RecipeHistory and UserDataManager classes
+
+4. TECHNOLOGY USED
+
+Programming Language:
+- Java 
+
+Data Storage:
+- File-based storage system for persistent data
+- Text files for storing recipes, ingredients, and user data
+
+Development Tools:
+- IntelliJ IDEA (IDE)
+- Git (Version Control)
+
+5. THEME ALIGNMENT: "SAVOUR THE FLAVOURS OF HEALTH"
+
+The Recipe Generator aligns with the theme by:
+
+- Promoting Healthy Cooking: Encourages users to cook at home with fresh ingredients
+- Ingredient Awareness: Helps users track and manage their ingredients effectively
+- Portion Control: Allows precise serving size adjustments for better portion control
+- Cooking Education: Step-by-step instructions promote proper cooking techniques
+- Recipe Variety: Supports different types of recipes to encourage diverse, healthy eating
+
+6. SOLID PRINCIPLES IMPLEMENTATION
+
+a) Single Responsibility Principle (SRP)
+- Each class has a single, well-defined responsibility
+- RecipeManager focuses solely on recipe operations
+- UserManager handles only user-related functionality
+- IngredientInventory manages ingredient tracking exclusively
+
+b) Open-Closed Principle (OCP)
+- AbstractRecipe class is open for extension but closed for modification
+- New recipe types can be added without changing existing code
+- Recipe validation rules can be extended without modifying core logic
+
+c) Liskov Substitution Principle (LSP)
+- All recipe types (MainDish, Dessert, Beverage) can be used interchangeably
+- Child classes maintain the behavior contracts of parent classes
+- Recipe type substitution doesn't affect system functionality
+
+d) Interface Segregation Principle (ISP)
+- Cooking modes are separated into specific interfaces
+- StepByStepCookingMode implements only relevant cooking operations
+- Recipe interfaces are segregated based on functionality
+
+e) Dependency Inversion Principle (DIP)
+- High-level modules depend on abstractions
+- RecipeManager depends on abstract RecipeRepository
+- User authentication system relies on abstract interfaces
+
+This project demonstrates a practical application of both OOP and SOLID principles while delivering a useful tool for healthy cooking and recipe management.

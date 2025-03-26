@@ -20,13 +20,11 @@ public class RecipeApp {
         System.out.println("\n=== Recipe Manager Menu ===");
         System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " Add New Recipe");
         System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " View All Recipes");
-        System.out.println(ConsoleColors.CYAN + "3." + ConsoleColors.RESET + " View Available Recipes");
-        System.out.println(ConsoleColors.CYAN + "4." + ConsoleColors.RESET + " View Partially Available Recipes");
-        System.out.println(ConsoleColors.CYAN + "5." + ConsoleColors.RESET + " Get Random Recipe");
-        System.out.println(ConsoleColors.CYAN + "6." + ConsoleColors.RESET + " Manage Ingredients");
-        System.out.println(ConsoleColors.CYAN + "7." + ConsoleColors.RESET + " View Cooking History");
-        System.out.println(ConsoleColors.CYAN + "8." + ConsoleColors.RESET + " Logout");
-        System.out.print("\nEnter your choice (1-8): ");
+        System.out.println(ConsoleColors.CYAN + "3." + ConsoleColors.RESET + " Get Random Recipe");
+        System.out.println(ConsoleColors.CYAN + "4." + ConsoleColors.RESET + " Manage Ingredients");
+        System.out.println(ConsoleColors.CYAN + "5." + ConsoleColors.RESET + " View Cooking History");
+        System.out.println(ConsoleColors.CYAN + "6." + ConsoleColors.RESET + " Logout");
+        System.out.print("\nEnter your choice (1-6): ");
     }
 
     private static void displayIngredientMenu() {
@@ -226,13 +224,82 @@ public class RecipeApp {
         }
     }
 
-    public static void main(String[] args) {
-        userManager = UserManager.getInstance();
-        recipeManager = RecipeManager.getInstance();
-        scanner = new Scanner(System.in);
+    private static void handleRandomRecipe() {
+        AbstractRecipe randomRecipe = recipeManager.getRandomRecipe();
+        if (randomRecipe != null) {
+            System.out.println("\nHere's a random recipe for you:\n");
+            System.out.println(randomRecipe);
+            List<AbstractRecipe> singleRecipe = new ArrayList<>();
+            singleRecipe.add(randomRecipe);
+            handleRecipeSelection(singleRecipe);
+        } else {
+            System.out.println("\nNo recipes available.");
+        }
+    }
 
-        recipeManager.loadRecipes("src/recipes.txt");
+    private static void handleIngredientManagement() {
+        while (true) {
+            displayIngredientMenu();
+            String ingredientChoice = scanner.nextLine().trim();
+            
+            switch (ingredientChoice) {
+                case "1":
+                    viewAllIngredients(userManager.getCurrentUser().getPersonalInventory());
+                    break;
+                case "2":
+                    addNewIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
+                    break;
+                case "3":
+                    removeIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
+                    break;
+                case "4":
+                    return;
+                default:
+                    System.out.println("\nInvalid choice! Please try again.");
+                    continue;
+            }
+            
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
+    }
 
+    private static void handleMainMenu() {
+        while (true) {
+            displayMenu();
+            String menuChoice = scanner.nextLine().trim();
+
+            switch (menuChoice) {
+                case "1":
+                    recipeManager.createRecipeWithUserInput();
+                    break;
+                case "2":
+                    viewAllRecipes(recipeManager);
+                    handleRecipeSelection(recipeManager.getAllRecipes());
+                    break;
+                case "3":
+                    handleRandomRecipe();
+                    break;
+                case "4":
+                    handleIngredientManagement();
+                    break;
+                case "5":
+                    viewCookingHistory(userManager.getCurrentUser());
+                    break;
+                case "6":
+                    userManager.logout();
+                    System.out.println("\nLogged out successfully!");
+                    return;
+                default:
+                    System.out.println("\nInvalid choice! Please try again.");
+            }
+
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
+    }
+
+    private static void handleAuthMenu() {
         while (true) {
             displayAuthMenu();
             String choice = scanner.nextLine().trim();
@@ -240,80 +307,7 @@ public class RecipeApp {
             switch (choice) {
                 case "1":
                     if (handleLogin()) {
-                        while (true) {
-                            displayMenu();
-                            String menuChoice = scanner.nextLine().trim();
-
-                            switch (menuChoice) {
-                                case "1":
-                                    recipeManager.createRecipeWithUserInput();
-                                    break;
-                                case "2":
-                                    viewAllRecipes(recipeManager);
-                                    handleRecipeSelection(recipeManager.getAllRecipes());
-                                    break;
-                                case "3":
-                                    viewAvailableRecipes(recipeManager);
-                                    handleRecipeSelection(recipeManager.getAvailableRecipes());
-                                    break;
-                                case "4":
-                                    viewPartiallyAvailableRecipes(recipeManager);
-                                    handleRecipeSelection(recipeManager.getPartiallyAvailableRecipes());
-                                    break;
-                                case "5":
-                                    AbstractRecipe randomRecipe = recipeManager.getRandomRecipe();
-                                    if (randomRecipe != null) {
-                                        System.out.println("\nHere's a random recipe for you:\n");
-                                        System.out.println(randomRecipe);
-                                        List<AbstractRecipe> singleRecipe = new ArrayList<>();
-                                        singleRecipe.add(randomRecipe);
-                                        handleRecipeSelection(singleRecipe);
-                                    } else {
-                                        System.out.println("\nNo recipes available.");
-                                    }
-                                    break;
-                                case "6":
-                                    while (true) {
-                                        displayIngredientMenu();
-                                        String ingredientChoice = scanner.nextLine().trim();
-                                        
-                                        switch (ingredientChoice) {
-                                            case "1":
-                                                viewAllIngredients(userManager.getCurrentUser().getPersonalInventory());
-                                                break;
-                                            case "2":
-                                                addNewIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
-                                                break;
-                                            case "3":
-                                                removeIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
-                                                break;
-                                            case "4":
-                                                break;
-                                            default:
-                                                System.out.println("\nInvalid choice! Please try again.");
-                                                continue;
-                                        }
-                                        
-                                        if (ingredientChoice.equals("4")) break;
-                                        System.out.println("\nPress Enter to continue...");
-                                        scanner.nextLine();
-                                    }
-                                    break;
-                                case "7":
-                                    viewCookingHistory(userManager.getCurrentUser());
-                                    break;
-                                case "8":
-                                    userManager.logout();
-                                    System.out.println("\nLogged out successfully!");
-                                    break;
-                                default:
-                                    System.out.println("\nInvalid choice! Please try again.");
-                            }
-
-                            if (menuChoice.equals("8")) break;
-                            System.out.println("\nPress Enter to continue...");
-                            scanner.nextLine();
-                        }
+                        handleMainMenu();
                     }
                     break;
                 case "2":
@@ -330,5 +324,14 @@ public class RecipeApp {
             System.out.println("\nPress Enter to continue...");
             scanner.nextLine();
         }
+    }
+
+    public static void main(String[] args) {
+        userManager = UserManager.getInstance();
+        recipeManager = RecipeManager.getInstance();
+        scanner = new Scanner(System.in);
+
+        recipeManager.loadRecipes("src/recipes.txt");
+        handleAuthMenu();
     }
 }
