@@ -30,7 +30,7 @@ Servings: 1
 Ingredients:
 - Bread, 2.0, slices
 - Butter, 1.0, tbsp
-- Cheddar Cheese, 2.0, slices
+- Cheese, 2.0, slices
 Steps:
 - Butter one side of each slice of bread.
 - Place a slice of cheese between the unbuttered sides of the bread.
@@ -87,6 +87,67 @@ Steps:
 - Mix in flour gradually.
 - Fold in chocolate chips.
 - Bake at 180°C for 12 minutes.
+---
+Recipe: Vegetable Curry
+Servings: 4
+Ingredients:
+- Potato, 2.0, pieces
+- Carrot, 2.0, pieces
+- Cauliflower, 1.0, head
+- Coconut Milk, 400.0, ml
+- Curry Powder, 2.0, tbsp
+- Onion, 1.0, pieces
+Steps:
+- Chop all vegetables into bite-sized pieces.
+- Sauté onions until translucent.
+- Add vegetables and curry powder, cook for 5 minutes.
+- Pour in coconut milk and simmer for 15 minutes.
+- Serve hot with rice.
+---
+Recipe: Fruit Yogurt Parfait
+Servings: 2
+Ingredients:
+- Yogurt, 2.0, cups
+- Berries, 1.0, cups
+- Honey, 2.0, tbsp
+Steps:
+- Layer yogurt in serving glasses.
+- Add berries on top.
+- Drizzle with honey and serve.
+---
+Recipe: Lemonade
+Servings: 4
+Ingredients:
+- Lemon, 4.0, pieces
+- Sugar, 4.0, tbsp
+- Water, 4.0, cups
+Steps:
+- Squeeze lemons to extract juice.
+- Mix lemon juice with sugar and water.
+- Stir until sugar dissolves and serve with ice.
+---
+Recipe: Quick Quesadilla
+Servings: 1
+Ingredients:
+- Tortilla, 2.0, pieces
+- Cheese, 100.0, g
+- Salsa, 2.0, tbsp
+Steps:
+- Place cheese between tortillas.
+- Cook on a pan until cheese melts.
+- Serve with salsa.
+---
+Recipe: Microwave Mug Cake
+Servings: 1
+Ingredients:
+- Flour, 4.0, tbsp
+- Sugar, 3.0, tbsp
+- Cocoa Powder, 2.0, tbsp
+- Milk, 3.0, tbsp
+Steps:
+- Mix all ingredients in a microwave-safe mug.
+- Microwave for 1-2 minutes.
+- Let cool slightly before eating.
 ---
 Recipe: Vegetable Curry
 Servings: 4

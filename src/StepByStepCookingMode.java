@@ -22,10 +22,17 @@ public class StepByStepCookingMode implements CookingMode {
         currentHistory = new RecipeHistory(recipe.getName(), recipe.getServings(), recipe);
         System.out.println("\nStarting Cooking Mode for " + recipe.getName());
         System.out.println("Total steps: " + steps.size());
-        System.out.println("Press Enter to start cooking...");
+
+        if (!checkAndConfirmIngredients(recipe)) {
+            System.out.println("\nCooking cancelled.");
+            return;
+        }
+
+        System.out.println("\nAll ingredients confirmed. Press Enter to start cooking...");
         scanner.nextLine();
 
-        for (int i = 0; i < steps.size(); i++) {            if (!processStep(recipe, i)) {
+        for (int i = 0; i < steps.size(); i++) {
+            if (!processStep(recipe, i)) {
                 rollbackIngredients();
                 return;
             }
@@ -36,13 +43,85 @@ public class StepByStepCookingMode implements CookingMode {
         usedIngredients.clear();
     }
 
+    private boolean checkAndConfirmIngredients(AbstractRecipe recipe) {
+        IngredientInventory inventory = currentUser.getPersonalInventory();
+        List<Ingredient> recipeIngredients = recipe.getIngredients();
+        Map<String, Double> insufficientIngredients = new HashMap<>();
+
+        // Check all ingredients first
+        for (Ingredient ingredient : recipeIngredients) {
+            double availableAmount = inventory.getIngredientAmount(ingredient.getName());
+            double requiredAmount = ingredient.getQuantity();
+
+            if (availableAmount < requiredAmount) {
+                insufficientIngredients.put(ingredient.getName(), requiredAmount - availableAmount);
+            }
+        }
+
+        if (!insufficientIngredients.isEmpty()) {
+            System.out.println("\nWarning: Some ingredients are insufficient:");
+            for (Map.Entry<String, Double> entry : insufficientIngredients.entrySet()) {
+                String ingredientName = entry.getKey();
+                double missingAmount = entry.getValue();
+                double availableAmount = inventory.getIngredientAmount(ingredientName);
+                String unit = "";
+                for (Ingredient ing : recipeIngredients) {
+                    if (ing.getName().equals(ingredientName)) {
+                        unit = ing.getUnit();
+                        break;
+                    }
+                }
+                System.out.println("- " + ingredientName + ":");
+                System.out.println("  Available: " + availableAmount + " " + unit);
+                System.out.println("  Missing: " + missingAmount + " " + unit);
+            }
+
+            while (true) {
+                System.out.println("\nOptions:");
+                System.out.println("1. Use available amounts and alternatives for the rest");
+                System.out.println("2. Use complete alternatives for insufficient ingredients");
+                System.out.println("3. Cancel cooking");
+                System.out.print("Choose an option (1-3): ");
+
+                String choice = scanner.nextLine().trim();
+
+                switch (choice) {
+                    case "1":
+                        for (Map.Entry<String, Double> entry : insufficientIngredients.entrySet()) {
+                            String ingredientName = entry.getKey();
+                            double availableAmount = inventory.getIngredientAmount(ingredientName);
+                            if (availableAmount > 0) {
+                                deductIngredient(ingredientName, availableAmount);
+                                System.out.println("Using " + availableAmount + " of " + ingredientName + " and alternative for the rest");
+                                currentHistory.markIngredientAlternative(ingredientName);
+                            }
+                        }
+                        return true;
+                    case "2":
+                        for (String ingredientName : insufficientIngredients.keySet()) {
+                            System.out.println("Using alternative for " + ingredientName);
+                            currentHistory.markIngredientAlternative(ingredientName);
+                        }
+                        return true;
+                    case "3":
+                        return false;
+                    default:
+                        System.out.println("Invalid input. Please enter a number between 1 and 3.");
+                }
+            }
+        }
+
+        // If all ingredients are available, deduct them
+        for (Ingredient ingredient : recipeIngredients) {
+            deductIngredient(ingredient.getName(), ingredient.getQuantity());
+        }
+
+        return true;
+    }
+
     private boolean processStep(AbstractRecipe recipe, int stepIndex) {
         List<String> steps = recipe.getSteps();
         System.out.println("\nStep " + (stepIndex + 1) + ": " + steps.get(stepIndex));
-
-        if (!handleIngredients(recipe, stepIndex)) {
-            return false;
-        }
 
         while (true) {
             System.out.print("\nHave you completed this step? (yes/no/cancel): ");
