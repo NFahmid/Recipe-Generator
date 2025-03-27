@@ -83,7 +83,8 @@ public class UserDataManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 2) {
-                    User user = new User(parts[0], parts[1]);
+                    User user = new User(parts[0]);
+                    user.setHashedPassword(parts[1]);
                     users.put(parts[0], user);
                 }
             }

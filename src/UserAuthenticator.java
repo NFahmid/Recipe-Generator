@@ -28,21 +28,19 @@ public class UserAuthenticator {
     }
 
     public String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+        if (password == null) return null;
+        
+        StringBuilder hashedPassword = new StringBuilder();
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                hashedPassword.append((char) (((c - base + 3) % 26) + base));
+            } else if (Character.isDigit(c)) {
+                hashedPassword.append((char) (((c - '0' + 3) % 10) + '0'));
+            } else {
+                hashedPassword.append(c);
             }
-
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
         }
+        return hashedPassword.toString();
     }
 }
