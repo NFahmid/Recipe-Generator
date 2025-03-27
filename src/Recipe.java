@@ -81,11 +81,14 @@ public class Recipe {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(ConsoleColors.BLUE_BOLD).append("Recipe: ").append(ConsoleColors.RESET).append(name)
+        sb.append(ConsoleColors.BLUE_BOLD).append("Color Legend:").append(ConsoleColors.RESET).append("\n")
+          .append(ConsoleColors.GREEN).append("■").append(ConsoleColors.RESET).append(" Available, ")
+          .append(ConsoleColors.YELLOW).append("■").append(ConsoleColors.RESET).append(" Partially Available, ")
+          .append(ConsoleColors.RED).append("■").append(ConsoleColors.RESET).append(" Not Available\n\n")
+          .append(ConsoleColors.BLUE_BOLD).append("Recipe: ").append(ConsoleColors.RESET).append(name)
           .append("\n").append(ConsoleColors.BLUE_BOLD).append("Servings: ").append(ConsoleColors.RESET).append(servings)
           .append("\n").append(ConsoleColors.BLUE_BOLD).append("Status: ").append(ConsoleColors.RESET);
 
-        // Add color based on recipe status
         switch (status) {
             case FULLY_AVAILABLE:
                 sb.append(ConsoleColors.GREEN).append(status);
@@ -102,8 +105,30 @@ public class Recipe {
           .append(" (").append(String.format("%.1f", matchPercentage)).append("% match)")
           .append("\n").append(ConsoleColors.BLUE_BOLD).append("Ingredients:").append(ConsoleColors.RESET).append("\n");
         
+        IngredientInventory inventory = IngredientInventory.getInstance();
         for (Ingredient ingredient : ingredients) {
-            sb.append("- ").append(ingredient.toString()).append("\n");
+            double availableAmount = inventory.getIngredientAmount(ingredient.getName());
+            double requiredAmount = ingredient.getQuantity();
+            
+            sb.append("- ");
+            String colorCode;
+            if (availableAmount >= requiredAmount) {
+                colorCode = ConsoleColors.GREEN;
+            } else if (availableAmount > 0) {
+                colorCode = ConsoleColors.YELLOW;
+            } else {
+                colorCode = ConsoleColors.RED;
+            }
+            
+            sb.append(colorCode)
+              .append(ingredient.getName())
+              .append(" (")
+              .append(ingredient.getQuantity())
+              .append(" ")
+              .append(ingredient.getUnit())
+              .append(")")
+              .append(ConsoleColors.RESET)
+              .append("\n");
         }
         
         sb.append("Steps:\n");

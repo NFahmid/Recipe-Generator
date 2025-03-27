@@ -136,6 +136,12 @@ public class RecipeApp {
         recipeManager.refreshAvailability();
 
         System.out.println("\nAll Recipes:\n");
+        // Display color legend once at the top
+        System.out.println(ConsoleColors.BLUE_BOLD + "Color Legend:" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.GREEN + "■" + ConsoleColors.RESET + " Available, " +
+                         ConsoleColors.YELLOW + "■" + ConsoleColors.RESET + " Partially Available, " +
+                         ConsoleColors.RED + "■" + ConsoleColors.RESET + " Not Available\n");
+                         
         List<AbstractRecipe> recipeList = recipeManager.getAllRecipes();
         if (recipeList.isEmpty()) {
             System.out.println("No recipes found.");
@@ -177,6 +183,12 @@ public class RecipeApp {
     private static void viewAvailableRecipes(RecipeManager recipeManager) {
         consoleUtils.clearScreen();
         System.out.println("\nFully Available Recipes:\n");
+        // Display color legend once at the top
+        System.out.println(ConsoleColors.BLUE_BOLD + "Color Legend:" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.GREEN + "■" + ConsoleColors.RESET + " Available, " +
+                         ConsoleColors.YELLOW + "■" + ConsoleColors.RESET + " Partially Available, " +
+                         ConsoleColors.RED + "■" + ConsoleColors.RESET + " Not Available\n");
+                         
         List<AbstractRecipe> availableRecipes = recipeManager.getAvailableRecipes();
         if (availableRecipes.isEmpty()) {
             System.out.println("No fully available recipes found.");
@@ -192,6 +204,12 @@ public class RecipeApp {
 
     private static void viewPartiallyAvailableRecipes(RecipeManager recipeManager) {
         System.out.println("\nPartially Available Recipes:\n");
+        // Display color legend once at the top
+        System.out.println(ConsoleColors.BLUE_BOLD + "Color Legend:" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.GREEN + "■" + ConsoleColors.RESET + " Available, " +
+                         ConsoleColors.YELLOW + "■" + ConsoleColors.RESET + " Partially Available, " +
+                         ConsoleColors.RED + "■" + ConsoleColors.RESET + " Not Available\n");
+                         
         List<AbstractRecipe> partialRecipes = recipeManager.getPartiallyAvailableRecipes();
         if (partialRecipes.isEmpty()) {
             System.out.println("No partially available recipes found.");
