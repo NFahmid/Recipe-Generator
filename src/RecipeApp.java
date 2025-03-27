@@ -7,8 +7,10 @@ public class RecipeApp {
     private static UserManager userManager;
     private static RecipeManager recipeManager;
     private static Scanner scanner;
+    private static ConsoleUtils consoleUtils = new ConsoleUtils();
 
     private static void displayAuthMenu() {
+        consoleUtils.clearScreen();
         System.out.println("\n=== Recipe Manager Login ===");
         System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " Login");
         System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " Sign Up");
@@ -17,6 +19,7 @@ public class RecipeApp {
     }
 
     private static void displayMenu() {
+        consoleUtils.clearScreen();
         System.out.println("\n=== Recipe Manager Menu ===");
         System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " Add New Recipe");
         System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " View All Recipes");
@@ -28,6 +31,7 @@ public class RecipeApp {
     }
 
     private static void displayIngredientMenu() {
+        consoleUtils.clearScreen();
         System.out.println("\n=== Ingredient Management ===");
         System.out.println(ConsoleColors.CYAN + "1." + ConsoleColors.RESET + " View All Ingredients");
         System.out.println(ConsoleColors.CYAN + "2." + ConsoleColors.RESET + " Add New Ingredient");
@@ -37,6 +41,7 @@ public class RecipeApp {
     }
 
     private static void viewAllIngredients(IngredientInventory inventory) {
+        consoleUtils.clearScreen();
         System.out.println("\nAvailable Ingredients:\n");
         Map<String, Ingredient> ingredients = inventory.getAvailableIngredients();
         if (ingredients.isEmpty()) {
@@ -52,6 +57,7 @@ public class RecipeApp {
     }
 
     private static void addNewIngredient(IngredientInventory inventory, Scanner scanner) {
+        consoleUtils.clearScreen();
         System.out.println("\nAdd New Ingredient");
         System.out.println("Format: ingredient_name, quantity, unit (e.g., Flour, 200, g)");
         
@@ -76,6 +82,7 @@ public class RecipeApp {
     }
 
     private static void removeIngredient(IngredientInventory inventory, Scanner scanner) {
+        consoleUtils.clearScreen();
         System.out.println("\nRemove Ingredient");
         System.out.print("Enter ingredient name to remove: ");
         String name = scanner.nextLine().trim();
@@ -85,6 +92,7 @@ public class RecipeApp {
     }
 
     private static void viewCookingHistory(User user) {
+        consoleUtils.clearScreen();
         List<RecipeHistory> history = user.getCookingHistory();
         if (history.isEmpty()) {
             System.out.println("\nNo cooking history found.");
@@ -102,7 +110,7 @@ public class RecipeApp {
     private static void handleRecipeSelection(List<AbstractRecipe> recipes) {
         if (recipes.isEmpty()) return;
 
-        System.out.println("\nWould you like to cook one of these recipes? (y/n): ");
+        System.out.printf("\nWould you like to cook one of these recipes? (y/n): ");
         String response = scanner.nextLine().trim().toLowerCase();
 
         if (response.equals("y")) {
@@ -124,6 +132,7 @@ public class RecipeApp {
     }
 
     private static void viewAllRecipes(RecipeManager recipeManager) {
+        consoleUtils.clearScreen();
         recipeManager.refreshAvailability();
 
         System.out.println("\nAll Recipes:\n");
@@ -149,6 +158,7 @@ public class RecipeApp {
             try {
                 int desiredServings = Integer.parseInt(scanner.nextLine().trim());
                 if (desiredServings > 0) {
+                    consoleUtils.clearScreen();
                     System.out.println("\nAdjusted Recipes:\n");
                     for (AbstractRecipe recipe : recipeList) {
                         AbstractRecipe adjustedRecipe = recipe.adjustServings(desiredServings);
@@ -165,6 +175,7 @@ public class RecipeApp {
     }
 
     private static void viewAvailableRecipes(RecipeManager recipeManager) {
+        consoleUtils.clearScreen();
         System.out.println("\nFully Available Recipes:\n");
         List<AbstractRecipe> availableRecipes = recipeManager.getAvailableRecipes();
         if (availableRecipes.isEmpty()) {
@@ -195,6 +206,9 @@ public class RecipeApp {
     }
 
     private static boolean handleLogin() {
+        System.out.println("\n=== Login ===");
+
+        consoleUtils.clearScreen();
         System.out.print("Enter username: ");
         String username = scanner.nextLine().trim();
         System.out.print("Enter password: ");
@@ -210,6 +224,8 @@ public class RecipeApp {
     }
 
     private static boolean handleSignup() {
+        System.out.println("\n=== Sign Up ===");
+        consoleUtils.clearScreen();
         System.out.print("Enter new username: ");
         String username = scanner.nextLine().trim();
         System.out.print("Enter password: ");
@@ -227,6 +243,7 @@ public class RecipeApp {
     private static void handleRandomRecipe() {
         AbstractRecipe randomRecipe = recipeManager.getRandomRecipe();
         if (randomRecipe != null) {
+            consoleUtils.clearScreen();
             System.out.println("\nHere's a random recipe for you:\n");
             System.out.println(randomRecipe);
             List<AbstractRecipe> singleRecipe = new ArrayList<>();
@@ -244,12 +261,15 @@ public class RecipeApp {
             
             switch (ingredientChoice) {
                 case "1":
+                    consoleUtils.clearScreen();
                     viewAllIngredients(userManager.getCurrentUser().getPersonalInventory());
                     break;
                 case "2":
+                    consoleUtils.clearScreen();
                     addNewIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
                     break;
                 case "3":
+                    consoleUtils.clearScreen();
                     removeIngredient(userManager.getCurrentUser().getPersonalInventory(), scanner);
                     break;
                 case "4":
@@ -261,6 +281,7 @@ public class RecipeApp {
             
             System.out.println("\nPress Enter to continue...");
             scanner.nextLine();
+            consoleUtils.clearScreen();
         }
     }
 
@@ -271,22 +292,28 @@ public class RecipeApp {
 
             switch (menuChoice) {
                 case "1":
+                    consoleUtils.clearScreen();
                     recipeManager.createRecipeWithUserInput();
                     break;
                 case "2":
+                    consoleUtils.clearScreen();
                     viewAllRecipes(recipeManager);
                     handleRecipeSelection(recipeManager.getAllRecipes());
                     break;
                 case "3":
+                    consoleUtils.clearScreen();
                     handleRandomRecipe();
                     break;
                 case "4":
+                    consoleUtils.clearScreen();
                     handleIngredientManagement();
                     break;
                 case "5":
+                    consoleUtils.clearScreen();
                     viewCookingHistory(userManager.getCurrentUser());
                     break;
                 case "6":
+                    consoleUtils.clearScreen();
                     userManager.logout();
                     System.out.println("\nLogged out successfully!");
                     return;
@@ -323,6 +350,7 @@ public class RecipeApp {
 
             System.out.println("\nPress Enter to continue...");
             scanner.nextLine();
+            consoleUtils.clearScreen();
         }
     }
 
